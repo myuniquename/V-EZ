@@ -39,9 +39,18 @@ namespace vez
     class Fence;
 
     #define OBJECT_LOOKUP_DECLARATION(Handle, Impl)\
-    extern vez::Impl* GetObjectImpl(Handle handle);\
-    extern void AddObjectImpl(Handle handle, vez::Impl* object);\
-    extern void RemoveObjectImpl(Handle handle);
+    extern vez::Impl* GetObjectImpl##Handle##(Handle handle);\
+    extern void AddObjectImpl##Handle##(Handle handle, vez::Impl* object);\
+    extern void RemoveObjectImpl##Handle##(Handle handle);
+
+	#define GetObjectImpl(HandleType, handleValue) \
+	GetObjectImpl##HandleType##(handleValue)
+
+	#define AddObjectImpl(HandleType, handleValue, object) \
+	AddObjectImpl##HandleType##(handleValue, object);
+
+	#define RemoveObjectImpl(HandleType, handleValue) \
+	RemoveObjectImpl##HandleType##(handleValue)
 
     namespace ObjectLookup
     {

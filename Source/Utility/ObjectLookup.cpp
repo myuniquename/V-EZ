@@ -59,17 +59,17 @@ namespace vez
     #define OBJECT_LOOKUP_DEFINITION(Handle, Impl) \
     static ObjectLookupImpl<Handle, vez::Impl*> s_##Impl##Lookup;\
     \
-    vez::Impl* GetObjectImpl(Handle handle)\
+    vez::Impl* GetObjectImpl##Handle##(Handle handle)\
     {\
         return s_##Impl##Lookup.Get(handle);\
     }\
     \
-    void AddObjectImpl(Handle handle, vez::Impl* object)\
+    void AddObjectImpl##Handle##(Handle handle, vez::Impl* object)\
     {\
         s_##Impl##Lookup.Add(handle, object);\
     }\
     \
-    void RemoveObjectImpl(Handle handle)\
+    void RemoveObjectImpl##Handle##(Handle handle)\
     {\
         s_##Impl##Lookup.Remove(handle);\
     }
