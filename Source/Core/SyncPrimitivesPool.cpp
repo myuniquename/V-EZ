@@ -77,7 +77,7 @@ namespace vez
         m_fenceLock.Unlock();
     }
 
-    bool SyncPrimitivesPool::Exists(VkFence fence)
+    bool SyncPrimitivesPool::ExistsFence(VkFence fence)
     {
         m_fenceLock.Lock();
         auto result = (m_allFences.find(fence) != m_allFences.end());
@@ -129,7 +129,7 @@ namespace vez
         m_semaphoreLock.Unlock();
     }
 
-    bool SyncPrimitivesPool::Exists(VkSemaphore semaphore)
+    bool SyncPrimitivesPool::ExistsSemaphore(VkSemaphore semaphore)
     {
         m_semaphoreLock.Lock();
         auto result = (m_allSemaphores.find(semaphore) != m_allSemaphores.end());

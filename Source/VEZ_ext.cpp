@@ -29,7 +29,7 @@
 VkResult VKAPI_CALL vezImportVkImage(VkDevice device, VkImage image, VkFormat format, VkExtent3D extent, VkSampleCountFlagBits samples, VkImageLayout imageLayout)
 {
     // Lookup device object handle.
-    auto deviceImpl = vez::ObjectLookup::GetObjectImpl(device);
+    auto deviceImpl = vez::ObjectLookup::GetObjectImpl(VkDevice, device);
     if (!deviceImpl)
         return VK_INCOMPLETE;
 
@@ -41,7 +41,7 @@ VkResult VKAPI_CALL vezImportVkImage(VkDevice device, VkImage image, VkFormat fo
     auto imageImpl = vez::Image::CreateFromHandle(deviceImpl, &createInfo, imageLayout, image, VK_NULL_HANDLE);
 
     // Add to ObjectLookup.
-    vez::ObjectLookup::AddObjectImpl(image, imageImpl);
+    vez::ObjectLookup::AddObjectImpl(VkImage, image, imageImpl);
 
     // Return success.
     return VK_SUCCESS;
@@ -50,12 +50,12 @@ VkResult VKAPI_CALL vezImportVkImage(VkDevice device, VkImage image, VkFormat fo
 VkResult VKAPI_CALL vezGetImageLayout(VkDevice device, VkImage image, VkImageLayout* pImageLayout)
 {
     // Lookup device object handle.
-    auto deviceImpl = vez::ObjectLookup::GetObjectImpl(device);
+    auto deviceImpl = vez::ObjectLookup::GetObjectImpl(VkDevice, device);
     if (!deviceImpl)
         return VK_INCOMPLETE;
 
     // Lookup image object handle.
-    auto imageImpl = vez::ObjectLookup::GetObjectImpl(image);
+    auto imageImpl = vez::ObjectLookup::GetObjectImpl(VkImage, image);
     if (!imageImpl)
         return VK_INCOMPLETE;
 

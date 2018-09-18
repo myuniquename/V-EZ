@@ -95,7 +95,7 @@ namespace vez
                     submitInfos[i].pWaitDstStageMask = pNextWaitDstStageMask;
                 }
 
-                *pNextWaitSemaphore = reinterpret_cast<VkSemaphore>(pSubmits[i].pWaitSemaphores[k]);
+                *pNextWaitSemaphore = static_cast<VkSemaphore>(pSubmits[i].pWaitSemaphores[k]);
                 *pNextWaitDstStageMask = static_cast<VkPipelineStageFlags>(pSubmits[i].pWaitDstStageMask[k]);
 
                 ++pNextWaitSemaphore;
@@ -115,7 +115,7 @@ namespace vez
                     return result;
 
                 *pNextSignalSemaphore = semaphore;
-                pSubmits[i].pSignalSemaphores[k] = reinterpret_cast<VkSemaphore>(semaphore);
+                pSubmits[i].pSignalSemaphores[k] = static_cast<VkSemaphore>(semaphore);
 
                 ++pNextSignalSemaphore;
                 ++submitInfos[i].signalSemaphoreCount;
@@ -127,7 +127,7 @@ namespace vez
 
         // Wrap fence in Fence class object and store references to all signal semaphores.
         auto fenceImpl = new Fence(fence, totalWaitSemaphores, waitSemaphores.data());
-        ObjectLookup::AddObjectImpl(fence, fenceImpl);
+        ObjectLookup::AddObjectImpl(VkFence, fence, fenceImpl);
 
         // Store reference to fence in application supplied pointer.
         if (pFence)
@@ -170,7 +170,7 @@ namespace vez
         for (auto i = 0U; i < pPresentInfo->swapchainCount; ++i)
         {
             // Get class objects.
-            auto srcImage = ObjectLookup::GetObjectImpl(pPresentInfo->pImages[i]);
+            auto srcImage = ObjectLookup::GetObjectImpl(VkImage, pPresentInfo->pImages[i]);
             auto swapchain = reinterpret_cast<Swapchain*>(pPresentInfo->pSwapchains[i]);
             auto dstImage = swapchain->GetImage(imageIndices[i]);
 
@@ -286,7 +286,7 @@ namespace vez
             auto status = vkGetFenceStatus(m_device->GetHandle(), fence);
             if (status == VK_SUCCESS)
             {
-                m_device->DestroyFence(vez::ObjectLookup::GetObjectImpl(fence));
+                m_device->DestroyFence(vez::ObjectLookup::GetObjectImpl(VkFence, fence));
                 *pCommandBuffer = std::get<0>(m_presentCmdBuffers.front());
                 m_presentCmdBuffers.pop();
                 return VK_SUCCESS;

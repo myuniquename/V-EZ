@@ -919,7 +919,7 @@ namespace vez
 
                                 if (bindingInfo.sampler != VK_NULL_HANDLE)
                                 {
-                                    imageInfo.sampler = reinterpret_cast<VkSampler>(bindingInfo.sampler);
+                                    imageInfo.sampler = static_cast<VkSampler>(bindingInfo.sampler);
                                 }
 
                                 if (bindingInfo.pImageView)
@@ -1052,7 +1052,7 @@ namespace vez
                                 // Add image access to resource bindings so the input attachment is bound to a descriptor set.
                                 auto framebuffer = reinterpret_cast<Framebuffer*>(m_renderPasses.back().framebuffer);
                                 auto imageView = framebuffer->GetAttachment(entry.inputAttachmentIndex);
-                                m_resourceBindings.BindImageView(imageView, nullptr, entry.set, entry.binding, 0);
+                                m_resourceBindings.BindImageView(imageView, 0, entry.set, entry.binding, 0);
 
                                 // Add input attachment index to current subpass.
                                 m_renderPasses.back().subpasses.back().inputAttachments.emplace(entry.inputAttachmentIndex);
