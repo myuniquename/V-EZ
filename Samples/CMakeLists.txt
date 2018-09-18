@@ -22,7 +22,11 @@
 # #######################################################################################################################
 
 if(WIN32)
-    set(PLATFORM_LIB win64) 
+    if(CMAKE_CL_64)
+        set(PLATFORM_LIB win64)
+    else(CMAKE_CL_64)
+        set(PLATFORM_LIB win32)
+    endif(CMAKE_CL_64)
     file(COPY ${VEZ_ROOT_DIR}/Libs/assimp/bin/win64/assimp-vc140-mt.dll DESTINATION ${OUTPUT_DIRECTORY})
 elseif(APPLE)
     set(PLATFORM_LIB osx64)
